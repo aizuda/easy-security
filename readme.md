@@ -4,7 +4,7 @@ easy-security从名字上可以看出是一款简单的安全认证框架，思�
 easy-security 不限制存储token方式，无论是保存到服务端还是使用JWT等都可以，因为这部分是由开发者自己来定义的，只需要告诉
 easy-security 该如何获取用户信息即可。
 
-如果你使用了 easy-security 自身所带的 RequestData 请求封装，那么所有的接口请求均以POST方式。
+如果你使用了 easy-security 自身所带的 Req 请求封装，那么所有的接口请求均以POST方式。
 
 easy-security 结合了Yapi的使用，如果你使用Yapi需要在自己的项目中描述规则
  
@@ -98,17 +98,16 @@ req.getUser() // 获取操作用户
 在项目中的 application.yml 文件里面添加如下：
 ```
 field:
-  required: "@yapi.annotation.com.aizuda.security.YApiRule#required"
+  required: "@com.aizuda.easy.security.annotation.yapi.YApiRule#required"
   default:
     value: "#default"
 json:
   rule:
     field:
-      ignore: "@yapi.annotation.com.aizuda.security.YApiRule#hide"
+      ignore: "@com.aizuda.easy.security.annotation.yapi.YApiRule#hide"
 
 method:
   additional:
-    header[!@yapi.annotation.com.aizuda.security.YApiRule]: '{name: "token",value: "fds435434322543dfsgfds4535435432543",required: true}'
-
+    header[!@com.aizuda.easy.security.annotation.yapi.YApiRule]: '{name: "token",value: "ddb9ba4f842529e539560b0a6df23408de27dbed00860a1c3c5af04d44fa3c39",required: true}'
 ```
 yapi 官方文档 https://hellosean1025.github.io/
