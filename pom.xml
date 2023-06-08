@@ -67,7 +67,7 @@
     <!--项目信息...-->
     <name>easy-security</name>
     <description>easy-security</description>
-    <url>https://github.com/landashu/easy-security</url>
+    <url>https://github.com/aizuda/easy-security</url>
 
     <!--开源协议...-->
     <licenses>
@@ -93,9 +93,9 @@
 
     <!--项目在github或其它托管平台的地址-->
     <scm>
-        <connection>https://github.com/landashu/easy-security.git</connection>
+        <connection>https://github.com/aizuda/easy-security.git</connection>
         <developerConnection></developerConnection>
-        <url>https://github.com/landashu/easy-security</url>
+        <url>https://github.com/aizuda/easy-security</url>
     </scm>
 
 <!--    <profiles>-->
