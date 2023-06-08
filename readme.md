@@ -7,7 +7,7 @@ easy-security 该如何获取用户信息即可。
 如果你使用了 easy-security 自身所带的 Req 请求封装，那么所有的接口请求均以POST方式。
 
 easy-security 结合了Yapi的使用，如果你使用Yapi需要在自己的项目中描述规则
-
+ 
 ### 功能列举
 * 认证拦截
 * 权限校验
