@@ -63,6 +63,7 @@ public class AuthConfig implements EasySecurityServer {
 
 }
 ```
+
 3. 获取用户
 ```
 // Req<T,U> 第一个参数为前端所传参数，第二个为后端会获取到的用户数据，只有登录了才能获取到
