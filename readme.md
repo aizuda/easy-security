@@ -1,6 +1,6 @@
 # easy-security
 
-![输入图片说明](imglogo.png)
+![](logo.png)
 
 easy-security 从名字上可以看出是一款简单的安全认证框架，思想就是希望通过简单的配置，并且实现核心的方法就达到认证和鉴权的目的。
 
