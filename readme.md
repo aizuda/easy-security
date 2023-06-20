@@ -128,7 +128,6 @@ public Rep<String> test(@RequestBody Req<Object,User> req){
 req.getData() // 获取前端传参
 req.getUser() // 获取操作用户
 ```
-完整的测试案例可以参考 https://gitee.com/landashu/study/tree/master/study-easySecurity
 
 ### Yapi规则描述
 在项目中的 application.yml 文件里面添加如下：
