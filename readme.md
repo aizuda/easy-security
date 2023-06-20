@@ -52,7 +52,7 @@ easy
       - /goods/getGoodsInfo
     # 需要解密的路径
     decrypt-url: ""
-    # 特殊路径，不受认证鉴权以及RequestData的影响
+    # 特殊路径，不受认证鉴权以及 Req 的影响
     special-url: 
       - /oss/**
     # 黑名单
@@ -70,14 +70,30 @@ public class AuthConfig implements EasySecurityServer {
     // 描述用户获取的方式，可以用token从redis获取，自己实现，也可以是JWT自己解析
     @Override
     public Object getAuthUser(String token) throws BasicException{
-        return null;
+        JWT jwt = JWT.of(token);
+        // 验证
+        if(!jwt.setKey(key.getBytes()).verify()){
+            throw new BasicException(BasicCode.BASIC_CODE_99986);
+        }
+        // 是否失效
+        Long exp = Long.valueOf(jwt.getPayload("exp").toString());
+        if(System.currentTimeMillis() > exp){
+            throw new BasicException(BasicCode.BASIC_CODE_99985);
+        }
+        // 返回用户
+        User user = new User();
+        user.setId(jwt.getPayload("id").toString());
+        user.setName(jwt.getPayload("name").toString());
+        user.setUrl((List<String>) jwt.getPayload("url"));
+        return user;
     }
 
     // 描述用户更获取权限集，可以用token从redis获取，自己实现
     // 也可以使用JWT自己解析数据
     @Override
     public List<String> getAuthorizeUrl(String token) throws BasicException{
-        return null;
+        User authUser = (User) getAuthUser(token);
+        return authUser.getUrl();
     }
 
 }
