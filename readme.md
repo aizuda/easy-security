@@ -11,7 +11,7 @@ easy-security 不限制存取token方式，无论是保存到服务端还是使�
 easy-security 结合了 Yapi 的使用，如果你使用 Yapi 需要在自己的项目中描述规则
 
 ### 使用模式
-easy-security 可以兼容多种架构模式搭配，如下如：
+easy-security 可以兼容多种架构模式搭配，如下：
 
 ![](doc/gateway-bff.png)
 
