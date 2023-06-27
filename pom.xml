@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.aizuda</groupId>
-    <artifactId>easy-security</artifactId>
+    <groupId>com.aizuda.easy-security</groupId>
+    <artifactId>easy-security-boot-starte</artifactId>
     <version>1.0.0</version>
 
     <parent>
@@ -93,8 +93,8 @@
     <!--项目在github或其它托管平台的地址-->
     <scm>
         <connection>https://github.com/aizuda/easy-security.git</connection>
-        <developerConnection></developerConnection>
-        <url>https://github.com/aizuda/easy-security</url>
+        <developerConnection>https://easy-security.aizuda.com/</developerConnection>
+        <url>https://easy-security.aizuda.com/</url>
     </scm>
 
     <!--    <profiles>-->
