@@ -53,16 +53,16 @@ easy
     auth-enable: true
     # 开启鉴权
     authorize-enable: true
-    # 开启只有装成RequestData请求类
+    # 开启 Req 请求封装
     request-data-enable: true
-    # 项目路径，不会被认证
+    # 项目路径，不会被认证，但依然会封装 Req
     project-url: 
       - /sysUser/login
       - /goods/getIndex
       - /goods/getGoodsInfo
-    # 需要解密的路径
+    # 需要加解密的路径，前端数据解密，后端返回数据加密
     decrypt-url: ""
-    # 特殊路径，不受认证鉴权以及 Req 的影响
+    # 特殊路径，不受认证鉴权影响，不会封装 Req
     special-url: 
       - /oss/**
     # 黑名单
@@ -111,7 +111,7 @@ public class AuthConfig implements EasySecurityServer {
 
 ##### 第四步 获取用户
 ```
-// Req<T,U> 第一个参数为前端所传参数，第二个为后端会获取到的用户数据，只有登录了才能获取到
+// 模拟登录，登录成功会给前端token，前端需要把token放在Headers中
 @PostMapping("/login")
 public Rep<User> login(){
     User user = new User();
@@ -128,15 +128,15 @@ public Rep<User> login(){
     return Rep.ok(user);
 }
 
+// Req<T,U> 第一个参数为前端所传参数，第二个为后端会获取到的用户数据，
 @PostMapping("/abc")
 public Rep<String> test(@RequestBody Req<Object,User> req){
+    // 获取前端传参
     String str = req.getData().toString();
+    // 获取操作用户
     User user = req.getUser();
     return Rep.ok(user.getName());
 }
-
-req.getData() // 获取前端传参
-req.getUser() // 获取操作用户
 ```
 
 ### Yapi规则描述
