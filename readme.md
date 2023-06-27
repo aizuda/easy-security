@@ -34,8 +34,18 @@ gateway和bff的这种搭配，easy-security 可以在两个bff实现不同的�
 * 黑名单
 * 密文传输(内置AES加密算法)
 
-### 使用
-1. 配置
+### 使用四步
+
+##### 第一步 添加依赖
+```
+<dependency>
+  <groupId>com.aizuda</groupId>
+  <artifactId>easy-security-boot-starter</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+##### 第二步 配置
 ```
 easy
   security:
@@ -61,7 +71,7 @@ easy
       - 192.168.148.41
 ```
 
-2. 实现获取方式
+##### 第三步 实现EasySecurityServer
 ```
 @Service
 @Slf4j
@@ -99,7 +109,7 @@ public class AuthConfig implements EasySecurityServer {
 }
 ```
 
-3. 获取用户
+##### 第四步 获取用户
 ```
 // Req<T,U> 第一个参数为前端所传参数，第二个为后端会获取到的用户数据，只有登录了才能获取到
 @PostMapping("/login")
