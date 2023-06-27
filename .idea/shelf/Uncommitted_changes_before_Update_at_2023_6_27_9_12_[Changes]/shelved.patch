@@ -1,0 +1,29 @@
+Index: readme.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># easy-security\r\neasy-security 从名字上可以看出是一款简单的安全认证框架，思想就是希望通过简单的配置，并且实现核心的方法就达到认证和鉴权的目的。\r\n\r\neasy-security 不限制存储token方式，无论是保存到服务端还是使用JWT等都可以，因为这部分是由开发者自己来定义的，只需要告诉easy-security 该如何获取用户信息即可。\r\n\r\n如果你使用了 easy-security 自身所带的 Req 请求封装，那么所有的接口请求均以POST方式。\r\n\r\neasy-security 结合了Yapi的使用，如果你使用Yapi需要在自己的项目中描述规则\r\n\r\n### 使用模式\r\neasy-security 可以兼容多种架构模式搭配，如下如：\r\n\r\n![](gateway-bff.png)\r\n\r\ngateway和bff的这种搭配，easy-security 可以在两个bff实现不同的认证逻辑，也可以实现相同的认证逻辑，但是权限可能是不一样，在web我拥有web的相关权限，app 拥有 app的相关权限。\r\n\r\n![](gateway.png)\r\n\r\n单独 gateway 的模式，也可以是单独 bff的模式，这种模式就是只会有一种形式的，但只有一种就没必要有bff了。\r\n\r\n![](server.png)\r\n\r\n每个 server 也可以有，也就是当每个server但被单独做成一个较大的服务，提供了自主的业务给不同用户的时候，都可以单独拥有认证和授权机制，当认证模式不统一的时候，那么我们可能需要额外的一个服务进行认证方式的统一做单点登录（SSO），若统一的话本身就支持了SSO\r\n\r\n目前 gateway 和 gateway-bff 两种模式，子服务依然要引入 easy-security，因为要使用提供的 Req 服务，但可以不给开启和实现认证逻辑\r\n\r\n### 功能列举\r\n* 认证拦截\r\n* 权限校验\r\n* 用户获取\r\n* 黑名单\r\n* 密文传输(内置AES加密算法)\r\n\r\n### 使用\r\n1. 配置\r\n```\r\neasy\r\n  security:\r\n    # 开启认证\r\n    auth-enable: true\r\n    # 开启鉴权\r\n    authorize-enable: true\r\n    # 开启只有装成RequestData请求类\r\n    request-data-enable: true\r\n    # 项目路径，不会被认证\r\n    project-url: \r\n      - /sysUser/login\r\n      - /goods/getIndex\r\n      - /goods/getGoodsInfo\r\n    # 需要解密的路径\r\n    decrypt-url: \"\"\r\n    # 特殊路径，不受认证鉴权以及RequestData的影响\r\n    special-url: \r\n      - /oss/**\r\n    # 黑名单\r\n    black-list: \r\n      - 192.168.148.42\r\n      - 192.168.148.41\r\n```\r\n\r\n2. 实现获取方式\r\n```\r\n@Service\r\n@Slf4j\r\npublic class AuthConfig implements EasySecurityServer {\r\n    \r\n    // 描述用户获取的方式，可以用token从redis获取，自己实现，也可以是JWT自己解析\r\n    @Override\r\n    public Object getAuthUser(String token) throws BasicException{\r\n        return null;\r\n    }\r\n\r\n    // 描述用户更获取权限集，可以用token从redis获取，自己实现\r\n    // 也可以使用JWT自己解析数据\r\n    @Override\r\n    public List<String> getAuthorizeUrl(String token) throws BasicException{\r\n        return null;\r\n    }\r\n\r\n}\r\n```\r\n\r\n3. 获取用户\r\n```\r\n// Req<T,U> 第一个参数为前端所传参数，第二个为后端会获取到的用户数据，只有登录了才能获取到\r\n@PostMapping(\"/login\")\r\npublic Rep<User> login(){\r\n    User user = new User();\r\n    user.setId(\"1\");\r\n    user.setName(\"张三\");\r\n    String token = JWT.create()\r\n            .setPayload(\"id\",1)\r\n            .setPayload(\"name\",\"张三\")\r\n            .setPayload(\"exp\", System.currentTimeMillis()+60*60*1000)\r\n            .setPayload(\"url\", Arrays.asList(\"/test/abc\"))\r\n            .setKey(key.getBytes())\r\n            .sign();\r\n    user.setToken(token);\r\n    return Rep.ok(user);\r\n}\r\n\r\n@PostMapping(\"/abc\")\r\npublic Rep<String> test(@RequestBody Req<Object,User> req){\r\n    String str = req.getData().toString();\r\n    User user = req.getUser();\r\n    return Rep.ok(user.getName());\r\n}\r\n\r\nreq.getData() // 获取前端传参\r\nreq.getUser() // 获取操作用户\r\n```\r\n完整的测试案例可以参考 https://gitee.com/landashu/study/tree/master/study-easySecurity\r\n\r\n### Yapi规则描述\r\n在项目中的 application.yml 文件里面添加如下：\r\n```\r\nfield:\r\n  required: \"@com.aizuda.easy.security.annotation.yapi.YApiRule#required\"\r\n  default:\r\n    value: \"#default\"\r\njson:\r\n  rule:\r\n    field:\r\n      ignore: \"@com.aizuda.easy.security.annotation.yapi.YApiRule#hide\"\r\n\r\nmethod:\r\n  additional:\r\n    header[!@com.aizuda.easy.security.annotation.yapi.YApiRule]: '{name: \"token\",value: \"ddb9ba4f842529e539560b0a6df23408de27dbed00860a1c3c5af04d44fa3c39\",required: true}'\r\n```\r\nyapi 官方文档 https://hellosean1025.github.io/
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/readme.md b/readme.md
+--- a/readme.md	(revision 861411b3c7c55cd872fb89f7a177fa1a75ed06a0)
++++ b/readme.md	(date 1687828294576)
+@@ -10,15 +10,15 @@
+ ### 使用模式
+ easy-security 可以兼容多种架构模式搭配，如下如：
+ 
+-![](gateway-bff.png)
++![](doc/gateway-bff.png)
+ 
+ gateway和bff的这种搭配，easy-security 可以在两个bff实现不同的认证逻辑，也可以实现相同的认证逻辑，但是权限可能是不一样，在web我拥有web的相关权限，app 拥有 app的相关权限。
+ 
+-![](gateway.png)
++![](doc/gateway.png)
+ 
+ 单独 gateway 的模式，也可以是单独 bff的模式，这种模式就是只会有一种形式的，但只有一种就没必要有bff了。
+ 
+-![](server.png)
++![](doc/server.png)
+ 
+ 每个 server 也可以有，也就是当每个server但被单独做成一个较大的服务，提供了自主的业务给不同用户的时候，都可以单独拥有认证和授权机制，当认证模式不统一的时候，那么我们可能需要额外的一个服务进行认证方式的统一做单点登录（SSO），若统一的话本身就支持了SSO
+ 
