@@ -1,6 +1,6 @@
 # easy-security
 
-![](logo.png)
+![](doc/logo.png)
 
 easy-security 基于过滤器实现的一款配合spring快速开发的安全认证框架，思想是希望通过简单的配置，并且实现核心的方法达到认证和鉴权的目的。
 
