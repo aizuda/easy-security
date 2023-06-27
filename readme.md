@@ -8,7 +8,7 @@ easy-security 不限制存取token方式，无论是保存到服务端还是使�
 
 如果你使用了 easy-security 自身所带的 Req 请求封装，那么所有的接口请求均以POST方式，Req 会把认证后的用户所携带在每次请求中，当需要获取用户的时候可以通过 Req 直接获取，解耦开发者获取认证用户的
 
-easy-security 结合了Yapi的使用，如果你使用Yapi需要在自己的项目中描述规则
+easy-security 结合了 Yapi 的使用，如果你使用 Yapi 需要在自己的项目中描述规则
 
 ### 使用模式
 easy-security 可以兼容多种架构模式搭配，如下如：
