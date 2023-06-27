@@ -3,9 +3,7 @@ package com.aizuda.easy.security.properties;
 
 import com.aizuda.easy.security.code.FilterOrderCode;
 import com.aizuda.easy.security.filter.*;
-import com.aizuda.security.filter.*;
 import com.aizuda.easy.security.server.EasySecurityServer;
-import com.wt.security.filter.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
