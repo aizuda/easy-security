@@ -13,15 +13,15 @@ easy-security 结合了Yapi的使用，如果你使用Yapi需要在自己的项�
 ### 使用模式
 easy-security 可以兼容多种架构模式搭配，如下如：
 
-![](gateway-bff.png)
+![](doc/gateway-bff.png)
 
 gateway和bff的这种搭配，easy-security 可以在两个bff实现不同的认证逻辑，也可以实现相同的认证逻辑，但是权限可能是不一样，在web我拥有web的相关权限，app 拥有 app的相关权限。
 
-![](gateway.png)
+![](doc/gateway.png)
 
 单独 gateway 的模式，也可以是单独 bff的模式，这种模式就是只会有一种形式的，但只有一种就没必要有bff了。
 
-![](server.png)
+![](doc/server.png)
 
 每个 server 也可以有，也就是当每个server但被单独做成一个较大的服务，提供了自主的业务给不同用户的时候，都可以单独拥有认证和授权机制，当认证模式不统一的时候，那么我们可能需要额外的一个服务进行认证方式的统一做单点登录（SSO），若统一的话本身就支持了SSO
 
