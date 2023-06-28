@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.aizuda</groupId>
-    <artifactId>easy-security-boot-starte</artifactId>
+    <artifactId>easy-security-boot-starter</artifactId>
     <version>1.0.0</version>
 
     <parent>
