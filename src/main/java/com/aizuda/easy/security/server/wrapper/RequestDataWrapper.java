@@ -29,7 +29,7 @@ public class RequestDataWrapper extends HttpServletRequestWrapper {
     private String body;
     private CiphertextServer ciphertextServer = new AesEncryptServer();
     private ObjectMapper mapper = new ObjectMapper();
-    public RequestDataWrapper(HttpServletRequest request, SecurityProperties securityProperties) throws Exception {
+    public RequestDataWrapper(HttpServletRequest request, SecurityProperties securityProperties) throws IOException, BasicException {
         super(request);
         body = getBodyContent(request);
         Req<Object,Object> req = new Req<Object,Object>();

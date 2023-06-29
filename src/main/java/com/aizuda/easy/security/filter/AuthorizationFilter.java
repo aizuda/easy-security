@@ -38,16 +38,11 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        try {
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            if(!threadLocalEntity.getSpecial() && !threadLocalEntity.getProject()){
-                authorize(request);
-            }
-            filterChain.doFilter(request, response);
-        } catch (BasicException e) {
-            log.error(e.getMsg());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
+        ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
+        if(!threadLocalEntity.getSpecial() && !threadLocalEntity.getProject()){
+            authorize(request);
         }
+        filterChain.doFilter(request, response);
     }
 
     private void authorize(HttpServletRequest request) throws BasicException {

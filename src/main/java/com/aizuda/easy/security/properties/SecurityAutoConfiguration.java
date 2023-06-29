@@ -22,6 +22,21 @@ public class SecurityAutoConfiguration {
 
     private final String  urlPatterns = "/*";
 
+    @Bean
+    public FilterRegistrationBean<BeforeFilter> beforeFilter(SecurityProperties securityProperties) {
+        log.info("building {}", FilterOrderCode.FILTER_ORDER_CODE_0.getName());
+        FilterRegistrationBean<BeforeFilter> registration = new FilterRegistrationBean<>();
+        BeforeFilter beforeFilter = new BeforeFilter();
+        beforeFilter.setSecurityProperties(securityProperties);
+        registration.setFilter(beforeFilter);
+        //配置过滤路径
+        registration.addUrlPatterns(urlPatterns);
+        //设置filter名称
+        registration.setName("beforeFilter");
+        //请求中过滤器执行的先后顺序，值越小越先执行
+        registration.setOrder(FilterOrderCode.FILTER_ORDER_CODE_0.getCode());
+        return registration;
+    }
 
     @Bean
     public FilterRegistrationBean<BlacklistFilter> blacklistFilter(SecurityProperties securityProperties) {

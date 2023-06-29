@@ -31,26 +31,17 @@ public class DecryptPathFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        try {
-            List<String> urlFilter = securityProperties.getDecryptUrl();
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            // 为空则不拦截
-            if(!CollectionUtil.isEmpty(urlFilter)){
-                if(StrUtil.isEmpty(securityProperties.getSecretKey())){
-                    throw new BasicException(BasicCode.BASIC_CODE_99990);
-                }
-                String url = request.getRequestURI();
-                PathCheckUtil.pathMatch(urlFilter,url,threadLocalEntity::setDecrypt);
+        List<String> urlFilter = securityProperties.getDecryptUrl();
+        ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
+        // 为空则不拦截
+        if(!CollectionUtil.isEmpty(urlFilter)){
+            if(StrUtil.isEmpty(securityProperties.getSecretKey())){
+                throw new BasicException(BasicCode.BASIC_CODE_99990);
             }
-            filterChain.doFilter(request, response);
-        } catch(BasicException e){
-            log.error(e.getMessage());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
-        }catch (Exception e){
-            log.error(e.getMessage());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl()
-                    ,BasicCode.BASIC_CODE_99994.getCode(),e.getMessage());
+            String url = request.getRequestURI();
+            PathCheckUtil.pathMatch(urlFilter,url,threadLocalEntity::setDecrypt);
         }
+        filterChain.doFilter(request, response);
     }
 
 }

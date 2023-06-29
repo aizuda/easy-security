@@ -36,19 +36,13 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        try {
-            // 不为特殊路径和项目路径才获取用户信息
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            if(!threadLocalEntity.getSpecial() && !threadLocalEntity.getProject()){
-                Object obj = getUser(request);
-                threadLocalEntity.setUser(obj);
-            }
-            filterChain.doFilter(request, response);
-        } catch (BasicException e) {
-            // 跳转至失败处理器
-            log.error(e.getMsg());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
+        // 不为特殊路径和项目路径才获取用户信息
+        ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
+        if(!threadLocalEntity.getSpecial() && !threadLocalEntity.getProject()){
+            Object obj = getUser(request);
+            threadLocalEntity.setUser(obj);
         }
+        filterChain.doFilter(request, response);
     }
 
 

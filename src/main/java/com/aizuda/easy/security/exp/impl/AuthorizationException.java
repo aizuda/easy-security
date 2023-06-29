@@ -14,4 +14,5 @@ public class AuthorizationException extends BasicException {
     public AuthorizationException(IErrorCode iErrorCode){
         super(iErrorCode);
     }
+    
 }

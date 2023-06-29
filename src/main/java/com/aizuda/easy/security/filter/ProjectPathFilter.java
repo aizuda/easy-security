@@ -29,18 +29,13 @@ public class ProjectPathFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        try {
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            List<String> urlFilter = securityProperties.getProjectUrl();
-            if(!CollectionUtil.isEmpty(urlFilter)){
-                String url = request.getRequestURI();
-                PathCheckUtil.pathMatch(urlFilter,url,threadLocalEntity::setProject);
-            }
-            filterChain.doFilter(request, response);
-        } catch(Exception e){
-            log.error(e.getMessage());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(), BasicCode.BASIC_CODE_99992.getCode(),e.getMessage());
+        ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
+        List<String> urlFilter = securityProperties.getProjectUrl();
+        if(!CollectionUtil.isEmpty(urlFilter)){
+            String url = request.getRequestURI();
+            PathCheckUtil.pathMatch(urlFilter,url,threadLocalEntity::setProject);
         }
+        filterChain.doFilter(request, response);
     }
 
 }

@@ -28,26 +28,18 @@ public class RequestDataFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        try {
-            request.setCharacterEncoding(Charsets.UTF_8.toString());
-            response.setCharacterEncoding(Charsets.UTF_8.toString());
-            // 不是特殊路径，且开启了使用 RequestData功能
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            if(!threadLocalEntity.getSpecial()){
-                request = new RequestDataWrapper(request, securityProperties);
-                ResponseDataWrapper responseDataWrapper = new ResponseDataWrapper(response,securityProperties);
-                filterChain.doFilter(request, responseDataWrapper);
-                responseDataWrapper.changeContent();
-                return;
-            }
-            filterChain.doFilter(request, servletResponse);
-        }catch(BasicException basicException){
-            log.error(basicException.getMsg());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(),basicException);
-        }catch(Exception e){
-            log.error(e.getMessage());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(), BasicCode.BASIC_CODE_99993.getCode(),e.getMessage());
+        request.setCharacterEncoding(Charsets.UTF_8.toString());
+        response.setCharacterEncoding(Charsets.UTF_8.toString());
+        // 不是特殊路径，且开启了使用 RequestData功能
+        ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
+        if(!threadLocalEntity.getSpecial()){
+            request = new RequestDataWrapper(request, securityProperties);
+            ResponseDataWrapper responseDataWrapper = new ResponseDataWrapper(response,securityProperties);
+            filterChain.doFilter(request, responseDataWrapper);
+            responseDataWrapper.changeContent();
+            return;
         }
+        filterChain.doFilter(request, servletResponse);
     }
 
 }
