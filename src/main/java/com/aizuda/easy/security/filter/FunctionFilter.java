@@ -10,7 +10,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 
 
 public class FunctionFilter implements Filter {
@@ -28,8 +27,7 @@ public class FunctionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        Collection<FunctionHandler> functionHandlers = defaultHandlerFactory.getFunctionHandlers();
-        for (FunctionHandler functionHandler : functionHandlers) {
+        for (FunctionHandler functionHandler : defaultHandlerFactory.getFunctionHandlers()) {
             functionHandler.exec(request, response, properties);
         }
         filterChain.doFilter(request, response);
