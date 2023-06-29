@@ -10,4 +10,5 @@ public abstract class AbstractFunctionHandler implements FunctionHandler{
     public void setEasySecurityServer(EasySecurityServer easySecurityServer) {
         this.easySecurityServer = easySecurityServer;
     }
+
 }

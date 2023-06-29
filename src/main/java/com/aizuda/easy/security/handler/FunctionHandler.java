@@ -12,7 +12,9 @@ public interface FunctionHandler {
 
     void exec(HttpServletRequest request, HttpServletResponse response, SecurityProperties properties) throws BasicException, IOException;
 
-    Integer getIndex();
+    default Integer getIndex(){
+        return 0;
+    }
 
     default void setEasySecurityServer(EasySecurityServer easySecurityServer){};
 }
