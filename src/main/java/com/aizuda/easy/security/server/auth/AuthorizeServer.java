@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AuthorizeServer {
 
-    Object getAuthUser(String token) throws BasicException;
+    Object getAuthUser(String token)throws BasicException;
 
     List<String> getAuthorizeUrl(String token) throws BasicException;
 

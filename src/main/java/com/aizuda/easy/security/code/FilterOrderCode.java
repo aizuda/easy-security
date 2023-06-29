@@ -8,14 +8,8 @@ public enum FilterOrderCode {
      * 过滤去顺序
      */
     FILTER_ORDER_CODE_0(0, "前置过滤器"),
-    FILTER_ORDER_CODE_90(90, "黑名单拦截"),
-    FILTER_ORDER_CODE_100(100, "特殊路径拦截"),
-    FILTER_ORDER_CODE_200(200, "项目路径拦截"),
-    FILTER_ORDER_CODE_210(210, "解密路径拦截"),
-    FILTER_ORDER_CODE_300(300, "凭证路径拦截"),
-    FILTER_ORDER_CODE_310(310, "凭证续期拦截"),
-    FILTER_ORDER_CODE_400(400, "权限路径拦截"),
-    FILTER_ORDER_CODE_500(500, "数据封装拦截"),
+    FILTER_ORDER_CODE_500(500, "业务过滤器"),
+    FILTER_ORDER_CODE_1000(1000, "后置过滤器"),
     ;
 
 

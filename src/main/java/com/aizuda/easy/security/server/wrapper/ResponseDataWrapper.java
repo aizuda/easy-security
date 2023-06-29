@@ -9,7 +9,7 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.server.encryption.CiphertextServer;
 import com.aizuda.easy.security.server.encryption.impl.AesEncryptServer;
 import com.aizuda.easy.security.domain.Rep;
-import com.aizuda.easy.security.util.ThreadLocalUtil;
+import com.aizuda.easy.security.util.LocalUtil;
 import org.apache.commons.codec.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,8 +82,8 @@ public class ResponseDataWrapper extends HttpServletResponseWrapper {
                 return;
             }
             Rep<Object> rep = mapper.readValue(data.trim(), Rep.class);
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            if(!ObjectUtil.isEmpty(rep.getData()) && threadLocalEntity.getDecrypt()){
+            LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+            if(!ObjectUtil.isEmpty(rep.getData()) && localEntity.getDecrypt()){
                 String obj = ciphertextServer.encryption(
                         mapper.writeValueAsString(rep.getData()),
                         securityProperties.getSecretKey(),

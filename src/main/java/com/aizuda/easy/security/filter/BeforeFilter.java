@@ -2,8 +2,8 @@ package com.aizuda.easy.security.filter;
 
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.properties.SecurityProperties;
-import com.aizuda.easy.security.server.EasySecurityServer;
-import com.aizuda.easy.security.util.ThreadLocalUtil;
+import com.aizuda.easy.security.util.LocalUtil;
+import org.apache.commons.codec.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class BeforeFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(BeforeFilter.class);
     private SecurityProperties securityProperties;
 
-    public void setSecurityProperties(SecurityProperties securityProperties) {
+    public BeforeFilter(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
 
@@ -26,14 +26,16 @@ public class BeforeFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        request.setCharacterEncoding(Charsets.UTF_8.toString());
+        response.setCharacterEncoding(Charsets.UTF_8.toString());
         try {
+            LocalUtil.create();
             filterChain.doFilter(request, response);
         } catch (BasicException e) {
-            // 跳转至失败处理器
             log.error(e.getMsg());
-            ThreadLocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
+            LocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
         }finally {
-            ThreadLocalUtil.threadLocal.remove();
+            LocalUtil.remove();
         }
     }
 

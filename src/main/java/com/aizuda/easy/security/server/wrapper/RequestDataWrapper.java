@@ -10,7 +10,7 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.server.encryption.CiphertextServer;
 import com.aizuda.easy.security.server.encryption.impl.AesEncryptServer;
 import com.aizuda.easy.security.domain.Req;
-import com.aizuda.easy.security.util.ThreadLocalUtil;
+import com.aizuda.easy.security.util.LocalUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 
 
@@ -32,15 +33,15 @@ public class RequestDataWrapper extends HttpServletRequestWrapper {
     public RequestDataWrapper(HttpServletRequest request, SecurityProperties securityProperties) throws IOException, BasicException {
         super(request);
         body = getBodyContent(request);
-        Req<Object,Object> req = new Req<Object,Object>();
+        Req req = new Req<>();
         if(!StrUtil.isEmpty(body)) {
             req = mapper.readValue(body, Req.class);
             if (ObjectUtil.isEmpty(req)) {
-                req = new Req<Object,Object>();
+                req = new Req<>();
             }
-            ThreadLocalUtil.ThreadLocalEntity threadLocalEntity = ThreadLocalUtil.threadLocal.get();
-            req.setUser(threadLocalEntity.getUser());
-            if(threadLocalEntity.getDecrypt()) {
+            LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+            req.setUser(localEntity.getUser());
+            if(localEntity.getDecrypt()) {
                 decrypt(req,request, securityProperties.getSecretKey());
             }
         }
@@ -57,7 +58,7 @@ public class RequestDataWrapper extends HttpServletRequestWrapper {
     @Override
     public ServletInputStream getInputStream() throws IOException {
 
-        final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(Charset.forName("UTF-8")));
+        final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
 
         return new ServletInputStream() {
             @Override
@@ -78,10 +79,10 @@ public class RequestDataWrapper extends HttpServletRequestWrapper {
         };
     }
 
-    private String getBodyContent(HttpServletRequest request) throws IOException {
+    private String getBodyContent(HttpServletRequest request) {
         StringBuilder sb = new StringBuilder();
         try (InputStream inputStream = request.getInputStream();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

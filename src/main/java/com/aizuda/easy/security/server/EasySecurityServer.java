@@ -7,5 +7,12 @@ import com.aizuda.easy.security.server.auth.AuthorizeServer;
  */
 public interface EasySecurityServer extends AuthorizeServer {
 
+    default void befor(){
+
+    }
+
+    default void after(){
+
+    }
 
 }
