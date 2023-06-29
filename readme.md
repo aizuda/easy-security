@@ -155,4 +155,4 @@ method:
   additional:
     header[!@com.aizuda.easy.security.annotation.yapi.YApiRule]: '{name: "token",value: "ddb9ba4f842529e539560b0a6df23408de27dbed00860a1c3c5af04d44fa3c39",required: true}'
 ```
-yapi 官方文档 https://hellosean1025.github.io/
+yapi 官方文档 https://hellosean1025.github.io
