@@ -7,12 +7,9 @@ import com.aizuda.easy.security.code.BasicCode;
 import com.aizuda.easy.security.exp.impl.AuthenticationException;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
-import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.properties.SecurityProperties;
-import com.aizuda.easy.security.server.EasySecurityServer;
 import com.aizuda.easy.security.util.LocalUtil;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +35,7 @@ public class AuthenticationHandler extends AbstractFunctionHandler {
 
     @Override
     public Integer getIndex() {
-        return 4;
+        return 40;
     }
 
 }

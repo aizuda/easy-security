@@ -9,10 +9,8 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.properties.SecurityProperties;
-import com.aizuda.easy.security.server.EasySecurityServer;
 import com.aizuda.easy.security.util.LocalUtil;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

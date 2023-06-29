@@ -2,6 +2,7 @@ package com.aizuda.easy.security.filter;
 
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.properties.SecurityProperties;
+import com.aizuda.easy.security.server.EasySecurityServer;
 import com.aizuda.easy.security.util.LocalUtil;
 import org.apache.commons.codec.Charsets;
 import org.slf4j.Logger;
@@ -16,10 +17,12 @@ import java.io.IOException;
 public class BeforeFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(BeforeFilter.class);
-    private SecurityProperties securityProperties;
+    private SecurityProperties properties;
+    private EasySecurityServer easySecurityServer;
 
-    public BeforeFilter(SecurityProperties securityProperties) {
-        this.securityProperties = securityProperties;
+    public BeforeFilter(SecurityProperties properties, EasySecurityServer easySecurityServer) {
+        this.properties = properties;
+        this.easySecurityServer = easySecurityServer;
     }
 
     @Override
@@ -30,10 +33,11 @@ public class BeforeFilter implements Filter {
         response.setCharacterEncoding(Charsets.UTF_8.toString());
         try {
             LocalUtil.create();
+            easySecurityServer.befor(request, response, properties);
             filterChain.doFilter(request, response);
         } catch (BasicException e) {
             log.error(e.getMsg());
-            LocalUtil.forward(request,response, securityProperties.getErrorUrl(),e);
+            LocalUtil.forward(request,response, properties.getErrorUrl(),e);
         }finally {
             LocalUtil.remove();
         }

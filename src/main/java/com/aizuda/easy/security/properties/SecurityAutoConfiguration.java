@@ -5,7 +5,6 @@ import com.aizuda.easy.security.code.FilterOrderCode;
 import com.aizuda.easy.security.filter.*;
 import com.aizuda.easy.security.handler.DefaultHandlerFactory;
 import com.aizuda.easy.security.handler.FunctionHandler;
-import com.aizuda.easy.security.handler.exec.BlacklistHandler;
 import com.aizuda.easy.security.server.EasySecurityServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +17,6 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 @Configuration
@@ -48,10 +45,10 @@ public class SecurityAutoConfiguration {
 
 
     @Bean
-    public FilterRegistrationBean<BeforeFilter> beforeFilter(SecurityProperties securityProperties) {
+    public FilterRegistrationBean<BeforeFilter> beforeFilter(EasySecurityServer easySecurityServer,SecurityProperties securityProperties) {
         log.info("building {}", FilterOrderCode.FILTER_ORDER_CODE_0.getName());
         FilterRegistrationBean<BeforeFilter> registration = new FilterRegistrationBean<>();
-        BeforeFilter beforeFilter = new BeforeFilter(securityProperties);
+        BeforeFilter beforeFilter = new BeforeFilter(securityProperties,easySecurityServer);
         registration.setFilter(beforeFilter);
         registration.addUrlPatterns(urlPatterns);
         registration.setName("beforeFilter");
@@ -72,10 +69,10 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean<AfterFilter> afterFilter(SecurityProperties securityProperties) {
+    public FilterRegistrationBean<AfterFilter> afterFilter(EasySecurityServer easySecurityServer,SecurityProperties securityProperties) {
         log.info("building {}",FilterOrderCode.FILTER_ORDER_CODE_1000.getName());
         FilterRegistrationBean<AfterFilter> registration = new FilterRegistrationBean<>();
-        AfterFilter afterFilter = new AfterFilter(securityProperties);
+        AfterFilter afterFilter = new AfterFilter(securityProperties,easySecurityServer);
         registration.setFilter(afterFilter);
         registration.addUrlPatterns(urlPatterns);
         registration.setName("afterFilter");

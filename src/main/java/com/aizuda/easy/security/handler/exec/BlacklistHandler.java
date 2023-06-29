@@ -2,7 +2,6 @@ package com.aizuda.easy.security.handler.exec;
 
 import com.aizuda.easy.security.code.BasicCode;
 import com.aizuda.easy.security.exp.impl.BasicException;
-import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.util.IPUtil;
