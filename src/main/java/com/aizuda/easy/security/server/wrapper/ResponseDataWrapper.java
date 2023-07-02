@@ -3,13 +3,15 @@ package com.aizuda.easy.security.server.wrapper;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.aizuda.easy.security.code.BasicCode;
-import com.aizuda.easy.security.properties.SecurityProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.aizuda.easy.security.domain.LocalEntity;
+import com.aizuda.easy.security.domain.Rep;
 import com.aizuda.easy.security.exp.impl.BasicException;
+import com.aizuda.easy.security.handler.FunctionHandler;
+import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.server.encryption.CiphertextServer;
 import com.aizuda.easy.security.server.encryption.impl.AesEncryptServer;
-import com.aizuda.easy.security.domain.Rep;
 import com.aizuda.easy.security.util.LocalUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +35,15 @@ public class ResponseDataWrapper extends HttpServletResponseWrapper {
     private CiphertextServer ciphertextServer = new AesEncryptServer();
     private ObjectMapper mapper = new ObjectMapper();
     private SecurityProperties securityProperties;
+    String data = null;
     public ResponseDataWrapper(HttpServletResponse response,SecurityProperties securityProperties) throws IOException {
         super(response);
         this.response = response;
         this.securityProperties = securityProperties;
+        for (FunctionHandler functionHandler : getFunctionHandlers()) {
+            log.debug("exec handler : {}",functionHandler.getClass().getName());
+            body = functionHandler.exec(request,body);
+        }
         //真正存储数据的流
         buffer = new ByteArrayOutputStream();
         out = new WapperedOutputStream(buffer);
@@ -71,7 +78,6 @@ public class ResponseDataWrapper extends HttpServletResponseWrapper {
     public void changeContent() throws IOException{
         flushBuffer();
         PrintWriter out = null;
-        String data = null;
         try {
             data = buffer.toString(Charsets.UTF_8);
             out = response.getWriter();
@@ -82,7 +88,7 @@ public class ResponseDataWrapper extends HttpServletResponseWrapper {
                 return;
             }
             Rep<Object> rep = mapper.readValue(data.trim(), Rep.class);
-            LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+            LocalEntity localEntity = LocalUtil.getLocalEntity();
             if(!ObjectUtil.isEmpty(rep.getData()) && localEntity.getDecrypt()){
                 String obj = ciphertextServer.encryption(
                         mapper.writeValueAsString(rep.getData()),

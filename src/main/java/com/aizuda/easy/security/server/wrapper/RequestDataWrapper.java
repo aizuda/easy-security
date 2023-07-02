@@ -2,15 +2,20 @@ package com.aizuda.easy.security.server.wrapper;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.aizuda.easy.security.DefaultHandlerFactory;
+import com.aizuda.easy.security.HandlerFactory;
 import com.aizuda.easy.security.code.BasicCode;
-import com.aizuda.easy.security.properties.SecurityProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.aizuda.easy.security.domain.LocalEntity;
+import com.aizuda.easy.security.domain.Req;
 import com.aizuda.easy.security.exp.impl.BasicException;
+import com.aizuda.easy.security.filter.FilterSolt;
+import com.aizuda.easy.security.handler.FunctionHandler;
+import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.server.encryption.CiphertextServer;
 import com.aizuda.easy.security.server.encryption.impl.AesEncryptServer;
-import com.aizuda.easy.security.domain.Req;
 import com.aizuda.easy.security.util.LocalUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,19 +24,23 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 
 
-public class RequestDataWrapper extends HttpServletRequestWrapper {
+public class RequestDataWrapper extends DefaultHandlerFactory implements HandlerFactory {
 
     private static final Logger log = LoggerFactory.getLogger(RequestDataWrapper.class);
     private String body;
     private CiphertextServer ciphertextServer = new AesEncryptServer();
     private ObjectMapper mapper = new ObjectMapper();
-    public RequestDataWrapper(HttpServletRequest request, SecurityProperties securityProperties) throws IOException, BasicException {
+
+    public RequestDataWrapper(HttpServletRequest request, SecurityProperties properties) throws IOException, BasicException {
         super(request);
+        for (FunctionHandler functionHandler : getFunctionHandlers()) {
+            log.debug("exec handler : {}",functionHandler.getClass().getName());
+            body = functionHandler.exec(request,body);
+        }
         body = getBodyContent(request);
         Req req = new Req<>();
         if(!StrUtil.isEmpty(body)) {
@@ -39,7 +48,7 @@ public class RequestDataWrapper extends HttpServletRequestWrapper {
             if (ObjectUtil.isEmpty(req)) {
                 req = new Req<>();
             }
-            LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+            LocalEntity localEntity = LocalUtil.getLocalEntity();
             req.setUser(localEntity.getUser());
             if(localEntity.getDecrypt()) {
                 decrypt(req,request, securityProperties.getSecretKey());

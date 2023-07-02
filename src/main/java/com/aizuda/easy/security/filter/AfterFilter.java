@@ -1,5 +1,6 @@
 package com.aizuda.easy.security.filter;
 
+import com.aizuda.easy.security.domain.LocalEntity;
 import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.server.EasySecurityServer;
 import com.aizuda.easy.security.server.wrapper.RequestDataWrapper;
@@ -30,15 +31,13 @@ public class AfterFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         // 不是特殊路径，且开启了使用 RequestData功能
-        LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+        LocalEntity localEntity = LocalUtil.getLocalEntity();
         if(localEntity.getSpecial()){
             return;
         }
         request = new RequestDataWrapper(request, properties);
         response = new ResponseDataWrapper(response,properties);
-        easySecurityServer.after(request, response, properties);
         filterChain.doFilter(request, response);
-        ((ResponseDataWrapper)response).changeContent();
     }
 
 }

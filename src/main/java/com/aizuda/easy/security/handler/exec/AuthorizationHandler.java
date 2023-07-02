@@ -3,12 +3,12 @@ package com.aizuda.easy.security.handler.exec;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.aizuda.easy.security.code.BasicCode;
+import com.aizuda.easy.security.domain.LocalEntity;
 import com.aizuda.easy.security.exp.impl.AuthenticationException;
 import com.aizuda.easy.security.exp.impl.AuthorizationException;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.FunctionHandler;
-import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.util.LocalUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +18,8 @@ import java.util.List;
 public class AuthorizationHandler extends AbstractFunctionHandler implements FunctionHandler {
 
     @Override
-    public void exec(HttpServletRequest request, HttpServletResponse response, SecurityProperties properties) throws BasicException {
-        LocalUtil.LocalEntity localEntity = LocalUtil.getLocalEntity();
+    public void exec(HttpServletRequest request, HttpServletResponse response) throws BasicException {
+        LocalEntity localEntity = LocalUtil.getLocalEntity();
         if(localEntity.getSpecial() || localEntity.getProject()){
             return;
         }
