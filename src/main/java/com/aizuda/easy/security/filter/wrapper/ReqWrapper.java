@@ -1,6 +1,6 @@
 package com.aizuda.easy.security.filter.wrapper;
 
-import com.aizuda.easy.security.AbstractHandlerFactory;
+import com.aizuda.easy.security.HandlerFactory;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
@@ -19,14 +19,13 @@ public class ReqWrapper extends HttpServletRequestWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(ReqWrapper.class);
     private String body;
-    private AbstractHandlerFactory abstractHandlerFactory;
 
-    public ReqWrapper(HttpServletRequest request) throws IOException, BasicException {
+    public ReqWrapper(HttpServletRequest request,HandlerFactory factory) throws IOException, BasicException {
         super(request);
         body = getBodyContent(request);
-        for (FunctionHandler functionHandler : abstractHandlerFactory.getFunctionHandlers()) {
-            log.debug("exec handler : {}",functionHandler.getClass().getName());
+        for (FunctionHandler functionHandler : factory.getFunctionHandlers()) {
             if(functionHandler instanceof ReqFunctionHandler) {
+                log.debug("exec handler : {}",functionHandler.getClass().getName());
                 body = ((ReqFunctionHandler)functionHandler).exec(request,body);
             }
         }

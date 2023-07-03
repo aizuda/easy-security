@@ -17,6 +17,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,7 @@ import java.util.Map;
 @Configuration
 @ConditionalOnClass(value = {SecurityProperties.class,EasySecurityServer.class})
 @EnableConfigurationProperties(SecurityProperties.class)
+@ComponentScan(value = {"com.aizuda.easy.security"})
 public class SecurityAutoConfiguration extends DefaultHandlerFactory implements HandlerFactory, ApplicationContextAware {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityAutoConfiguration.class);
@@ -56,13 +58,13 @@ public class SecurityAutoConfiguration extends DefaultHandlerFactory implements 
 
     @Bean
     public FilterRegistrationBean<FunctionFilter> functionFilter() {
-        log.info("building {}",FilterOrderCode.FILTER_ORDER_CODE_500.getName());
+        log.info("building {}",FilterOrderCode.FILTER_ORDER_CODE_0.getName());
         FilterRegistrationBean<FunctionFilter> registration = new FilterRegistrationBean<>();
-        FunctionFilter functionFilter = new FunctionFilter(securityProperties);
+        FunctionFilter functionFilter = new FunctionFilter(securityProperties,this);
         registration.setFilter(functionFilter);
         registration.addUrlPatterns(urlPatterns);
         registration.setName("functionFilter");
-        registration.setOrder(FilterOrderCode.FILTER_ORDER_CODE_500.getCode());
+        registration.setOrder(FilterOrderCode.FILTER_ORDER_CODE_0.getCode());
         return registration;
     }
 

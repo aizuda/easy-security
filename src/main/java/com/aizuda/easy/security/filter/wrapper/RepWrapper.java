@@ -1,7 +1,7 @@
 package com.aizuda.easy.security.filter.wrapper;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.aizuda.easy.security.AbstractHandlerFactory;
+import com.aizuda.easy.security.HandlerFactory;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.handler.RepFunctionHandler;
@@ -26,10 +26,11 @@ public class RepWrapper extends HttpServletResponseWrapper {
     private PrintWriter writer;
     private HttpServletResponse response;
     private String body;
-    private AbstractHandlerFactory abstractHandlerFactory;
-    public RepWrapper(HttpServletResponse response){
+    private HandlerFactory factory;
+    public RepWrapper(HttpServletResponse response,HandlerFactory factory){
         super(response);
         this.response = response;
+        this.factory = factory;
         //真正存储数据的流
         buffer = new ByteArrayOutputStream();
         out = new WapperedOutputStream(buffer);
@@ -67,9 +68,9 @@ public class RepWrapper extends HttpServletResponseWrapper {
             flushBuffer();
             body = buffer.toString();
             printWriter = response.getWriter();
-            for (FunctionHandler functionHandler : abstractHandlerFactory.getFunctionHandlers()) {
-                log.debug("exec handler : {}", functionHandler.getClass().getName());
+            for (FunctionHandler functionHandler : factory.getFunctionHandlers()) {
                 if(functionHandler instanceof RepFunctionHandler) {
+                    log.debug("exec handler : {}", functionHandler.getClass().getName());
                     body = ((RepFunctionHandler)functionHandler).exec(response,body);
                 }
             }

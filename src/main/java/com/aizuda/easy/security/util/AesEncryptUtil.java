@@ -1,6 +1,5 @@
-package com.aizuda.easy.security.server.encryption.impl;
+package com.aizuda.easy.security.util;
 
-import com.aizuda.easy.security.server.encryption.CiphertextServer;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
 
@@ -8,14 +7,13 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AesEncryptServer implements CiphertextServer {
+public class AesEncryptUtil {
 
     private static final String INSTANCE = "AES/CBC/NoPadding";
 
     private static final String ALGORITHM = "AES";
 
-    @Override
-    public String encryption(String data, String key, String iv){
+    public static String encryption(String data, String key, String iv){
         try {
             //"算法/模式/补码方式"NoPadding PkcsPadding
             Cipher cipher = Cipher.getInstance(INSTANCE);
@@ -39,8 +37,7 @@ public class AesEncryptServer implements CiphertextServer {
     }
 
 
-    @Override
-    public String decryption(String data, String key, String iv) {
+    public static String decryption(String data, String key, String iv) {
         try {
             byte[] encrypted1 = new Base64().decode(data);
             Cipher cipher = Cipher.getInstance(INSTANCE);

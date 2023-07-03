@@ -26,7 +26,7 @@ public class BlacklistHandler extends AbstractFunctionHandler implements ReqFunc
 
     @Override
     public Integer getIndex() {
-        return 0;
+        return Integer.MIN_VALUE;
     }
 
 }

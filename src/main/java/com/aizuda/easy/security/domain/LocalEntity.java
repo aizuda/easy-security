@@ -4,8 +4,6 @@ public class LocalEntity {
 
     private Object user;
 
-    private Boolean decrypt = false;
-
     private Boolean special = false;
 
     private Boolean project = false;
@@ -24,14 +22,6 @@ public class LocalEntity {
 
     public void setProject(Boolean project) {
         this.project = project;
-    }
-
-    public Boolean getDecrypt() {
-        return decrypt;
-    }
-
-    public void setDecrypt(Boolean decrypt) {
-        this.decrypt = decrypt;
     }
 
     public Object getUser() {

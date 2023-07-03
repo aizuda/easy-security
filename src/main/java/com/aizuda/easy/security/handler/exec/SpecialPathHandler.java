@@ -7,10 +7,12 @@ import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.LocalUtil;
 import com.aizuda.easy.security.util.PathCheckUtil;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Component
 public class SpecialPathHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
 
     @Override
@@ -22,13 +24,13 @@ public class SpecialPathHandler extends AbstractFunctionHandler implements ReqFu
         }
         String url = request.getRequestURI();
         // 确定有该URL 就需要放到线程变量中
-        PathCheckUtil.pathMatch(urlFilter,url, localEntity::setSpecial);
+        PathCheckUtil.pathMatch(urlFilter,url,(bol) -> localEntity.setSpecial(bol));
         return json;
     }
 
     @Override
     public Integer getIndex() {
-        return 1;
+        return Integer.MIN_VALUE + 1;
     }
 
 }

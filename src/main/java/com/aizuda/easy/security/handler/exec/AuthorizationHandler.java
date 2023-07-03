@@ -10,10 +10,12 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.LocalUtil;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Component
 public class AuthorizationHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
 
     @Override
@@ -39,6 +41,6 @@ public class AuthorizationHandler extends AbstractFunctionHandler implements Req
 
     @Override
     public Integer getIndex() {
-        return 5;
+        return Integer.MIN_VALUE + 5;
     }
 }

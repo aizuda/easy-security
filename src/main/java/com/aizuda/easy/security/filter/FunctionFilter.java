@@ -1,9 +1,10 @@
 package com.aizuda.easy.security.filter;
 
+import com.aizuda.easy.security.HandlerFactory;
 import com.aizuda.easy.security.exp.impl.BasicException;
-import com.aizuda.easy.security.properties.SecurityProperties;
-import com.aizuda.easy.security.filter.wrapper.ReqWrapper;
 import com.aizuda.easy.security.filter.wrapper.RepWrapper;
+import com.aizuda.easy.security.filter.wrapper.ReqWrapper;
+import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.util.LocalUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 
 public class FunctionFilter implements Filter {
@@ -19,9 +21,10 @@ public class FunctionFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(FunctionFilter.class);
     private static final String PARAMES = "?code=%s&msg=%s";
     private SecurityProperties properties;
-
-    public FunctionFilter(SecurityProperties properties) {
+    private HandlerFactory factory;
+    public FunctionFilter(SecurityProperties properties,HandlerFactory factory) {
         this.properties = properties;
+        this.factory = factory;
     }
 
     @Override
@@ -29,9 +32,12 @@ public class FunctionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         try {
+            request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             LocalUtil.create();
-            ReqWrapper qw = new ReqWrapper(request);
-            RepWrapper pw = new RepWrapper(response);
+            response.setHeader("requestUri", request.getRequestURI());
+            ReqWrapper qw = new ReqWrapper(request,factory);
+            RepWrapper pw = new RepWrapper(response,factory);
             filterChain.doFilter(qw, pw);
             pw.changeContent();
         } catch (BasicException e) {

@@ -7,9 +7,7 @@ public enum FilterOrderCode {
     /**
      * 过滤去顺序
      */
-    FILTER_ORDER_CODE_0(0, "前置过滤器"),
-    FILTER_ORDER_CODE_500(500, "业务过滤器"),
-    FILTER_ORDER_CODE_1000(1000, "后置过滤器"),
+    FILTER_ORDER_CODE_0(0, "核心过滤器加载"),
     ;
 
 
