@@ -15,7 +15,7 @@ public interface CiphertextServer {
 
     default String encryption(HttpServletResponse response, String json, String key) throws BasicException {
         String iv = getIvValue();
-        response.setHeader(getIV(), iv);
+        response.setHeader(IV, iv);
         json = AesEncryptUtil.encryption(json, key, iv);
         if(StrUtil.isEmpty(json)){
             throw new BasicException(BasicCode.BASIC_CODE_99988);
