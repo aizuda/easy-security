@@ -30,7 +30,7 @@ public class ReqDataHandler extends AbstractFunctionHandler implements ReqFuncti
     public String exec(HttpServletRequest request, String json) throws BasicException, IOException {
         String method = request.getMethod().toUpperCase(Locale.ROOT);
         LocalEntity localEntity = LocalUtil.getLocalEntity();
-        if(StrUtil.isEmpty(json) || properties.getRequestDataEnable()) {
+        if(StrUtil.isEmpty(json) || !properties.getRequestDataEnable()) {
             return json;
         }
         if(!method.equals("POST")){
