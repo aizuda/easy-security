@@ -6,11 +6,9 @@ import java.util.Collection;
 
 public interface HandlerFactory {
 
-    void register(Integer index, FunctionHandler functionHandler);
-
-    void remove(Integer index);
-
     FunctionHandler getFunctionHandler(Integer index);
 
     Collection<FunctionHandler> getFunctionHandlers();
+
+    boolean contain(Integer index, FunctionHandler functionHandler);
 }

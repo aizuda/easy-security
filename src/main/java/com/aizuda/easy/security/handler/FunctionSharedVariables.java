@@ -5,8 +5,8 @@ import com.aizuda.easy.security.server.EasySecurityServer;
 
 public interface FunctionSharedVariables {
 
-    default void setEasySecurityServer(EasySecurityServer easySecurityServer){};
+    void setEasySecurityServer(EasySecurityServer easySecurityServer);
 
-    default void setProperties(SecurityProperties properties){};
+    void setProperties(SecurityProperties properties);
 
 }

@@ -8,20 +8,19 @@ import com.aizuda.easy.security.exp.impl.AuthenticationException;
 import com.aizuda.easy.security.exp.impl.AuthorizationException;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
-import com.aizuda.easy.security.handler.FunctionHandler;
+import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.LocalUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class AuthorizationHandler extends AbstractFunctionHandler implements FunctionHandler {
+public class AuthorizationHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
 
     @Override
-    public void exec(HttpServletRequest request, HttpServletResponse response) throws BasicException {
+    public String exec(HttpServletRequest request,String json) throws BasicException {
         LocalEntity localEntity = LocalUtil.getLocalEntity();
         if(localEntity.getSpecial() || localEntity.getProject()){
-            return;
+            return json;
         }
         String token = request.getHeader(properties.getTokenKey());
         if (StrUtil.isEmpty(token)) {
@@ -35,6 +34,7 @@ public class AuthorizationHandler extends AbstractFunctionHandler implements Fun
         if(!list.contains(url)){
             throw new AuthorizationException(BasicCode.BASIC_CODE_403);
         }
+        return json;
     }
 
     @Override

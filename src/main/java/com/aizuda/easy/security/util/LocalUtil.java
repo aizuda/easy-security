@@ -10,7 +10,7 @@ public class LocalUtil {
         return local.get();
     }
 
-    public static void remove(){
+    public static void destroy(){
         local.remove();
     }
 

@@ -1,10 +1,9 @@
 package com.aizuda.easy.security.filter;
 
 import com.aizuda.easy.security.exp.impl.BasicException;
-import com.aizuda.easy.security.filter.solt.FunctionFilterSolt;
 import com.aizuda.easy.security.properties.SecurityProperties;
-import com.aizuda.easy.security.server.wrapper.RequestDataWrapper;
-import com.aizuda.easy.security.server.wrapper.ResponseDataWrapper;
+import com.aizuda.easy.security.filter.wrapper.ReqWrapper;
+import com.aizuda.easy.security.filter.wrapper.RepWrapper;
 import com.aizuda.easy.security.util.LocalUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class FunctionFilter extends FunctionFilterSolt implements Filter, FilterSolt {
+public class FunctionFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(FunctionFilter.class);
     private static final String PARAMES = "?code=%s&msg=%s";
@@ -29,17 +28,17 @@ public class FunctionFilter extends FunctionFilterSolt implements Filter, Filter
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        RequestDataWrapper qw;
-        ResponseDataWrapper pw;
         try {
-            qw = new RequestDataWrapper(request, properties);
-            pw = new ResponseDataWrapper(response,properties);
+            LocalUtil.create();
+            ReqWrapper qw = new ReqWrapper(request);
+            RepWrapper pw = new RepWrapper(response);
             filterChain.doFilter(qw, pw);
+            pw.changeContent();
         } catch (BasicException e) {
             log.error(e.getMsg());
             forward(request,response, properties.getErrorUrl(),e);
         }finally {
-            LocalUtil.remove();
+            LocalUtil.destroy();
         }
     }
 
