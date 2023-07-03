@@ -13,10 +13,14 @@ public interface CiphertextServer {
 
     String IV = "iv";
 
-    default String encryption(HttpServletResponse response, String json, String key){
+    default String encryption(HttpServletResponse response, String json, String key) throws BasicException {
         String iv = getIvValue();
         response.setHeader(getIV(), iv);
-        return AesEncryptUtil.encryption(json, key, iv);
+        json = AesEncryptUtil.encryption(json, key, iv);
+        if(StrUtil.isEmpty(json)){
+            throw new BasicException(BasicCode.BASIC_CODE_99988);
+        }
+        return json;
     }
 
     default String decryption(HttpServletRequest request, String json,String key) throws BasicException {
@@ -27,7 +31,11 @@ public interface CiphertextServer {
         if(StrUtil.isEmpty(iv)){
             throw new BasicException(BasicCode.BASIC_CODE_99989);
         }
-        return AesEncryptUtil.decryption(json, key,iv);
+        json = AesEncryptUtil.decryption(json, key,iv);
+        if(StrUtil.isEmpty(json)){
+            throw new BasicException(BasicCode.BASIC_CODE_99987);
+        }
+        return json;
     }
 
     default String getIvValue(){
