@@ -4,14 +4,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @ConfigurationProperties(prefix = "easy.security")
 public class SecurityProperties {
 
-    private boolean authEnable = false;
+    private Boolean authEnable = false;
 
     private Boolean authorizeEnable = false;
 
@@ -46,7 +44,7 @@ public class SecurityProperties {
      */
     private String secretKey;
 
-    public boolean isAuthEnable() {
+    public boolean getAuthEnable() {
         return authEnable;
     }
 
@@ -54,7 +52,7 @@ public class SecurityProperties {
         this.authEnable = authEnable;
     }
 
-    public Boolean getAuthorizeEnable() {
+    public boolean getAuthorizeEnable() {
         return authorizeEnable;
     }
 
@@ -125,4 +123,7 @@ public class SecurityProperties {
     public void setBlackList(List<String> blackList) {
         this.blackList = blackList;
     }
+
+
+
 }

@@ -21,7 +21,7 @@ public class AuthorizationHandler extends AbstractFunctionHandler implements Req
     @Override
     public String exec(HttpServletRequest request,String json) throws BasicException {
         LocalEntity localEntity = LocalUtil.getLocalEntity();
-        if(localEntity.getSpecial() || localEntity.getProject()){
+        if(localEntity.getSpecial() || localEntity.getProject() || !properties.getAuthorizeEnable()){
             return json;
         }
         String token = request.getHeader(properties.getTokenKey());

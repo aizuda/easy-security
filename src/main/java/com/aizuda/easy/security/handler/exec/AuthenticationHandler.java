@@ -21,7 +21,7 @@ public class AuthenticationHandler extends AbstractFunctionHandler implements Re
     public String exec(HttpServletRequest request, String json) throws BasicException {
         // 不为特殊路径和项目路径才获取用户信息
         LocalEntity localEntity = LocalUtil.getLocalEntity();
-        if(localEntity.getSpecial() || localEntity.getProject()){
+        if(localEntity.getSpecial() || localEntity.getProject() || !properties.getAuthEnable()){
             return json;
         }
         String token = request.getHeader(properties.getTokenKey());
