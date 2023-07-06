@@ -17,10 +17,11 @@ easy-security 结合了 Yapi 的使用，如果你使用 Yapi 需要在自己的
 * 权限校验
 * 用户获取
 * 黑名单
-* 密文传输(内置AES加密算法)(实验)
+* 密文传输(内置AES加密算法)
 
 ### 加入社区
-![](doc/code.png) ![](doc/code1.png)
+![](doc/code.png) 
+![](doc/code1.png)
 
 
 
