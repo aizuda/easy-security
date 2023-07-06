@@ -20,11 +20,11 @@ public class LocalUtil {
     }
 
     public static <T> T getUser(){
-        if(ObjectUtil.isNull(getLocalEntity())){
+        LocalEntity localEntity = getLocalEntity();
+        if(ObjectUtil.isNull(localEntity) || ObjectUtil.isNull(localEntity.getUser())){
             return null;
         }
-        return (T) getLocalEntity().getUser();
+        return (T) localEntity.getUser();
     }
-
 
 }
