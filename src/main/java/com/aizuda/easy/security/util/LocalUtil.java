@@ -18,4 +18,8 @@ public class LocalUtil {
         local.set(new LocalEntity());
     }
 
+    public static <T> T getUser(){
+        return (T) local.get().getUser();
+    }
+
 }
