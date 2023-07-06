@@ -27,9 +27,4 @@ public class LocalUtil {
     }
 
 
-    public static void main(String[] args) {
-        Object user = LocalUtil.<LocalEntity>getUser();
-        System.out.println(user);
-    }
-
 }
