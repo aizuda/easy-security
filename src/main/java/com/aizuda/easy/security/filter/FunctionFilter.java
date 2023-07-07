@@ -35,11 +35,15 @@ public class FunctionFilter implements Filter {
             request.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             LocalUtil.create();
-            response.setHeader("requestUri", request.getRequestURI());
-            ReqWrapper qw = new ReqWrapper(request,factory);
-            RepWrapper pw = new RepWrapper(response,factory);
-            filterChain.doFilter(qw, pw);
-            pw.changeContent();
+            request = new ReqWrapper(request,factory);
+            if(!LocalUtil.getLocalEntity().getSpecial()){
+                response.setHeader("requestUri", request.getRequestURI());
+                response = new RepWrapper(response,factory);
+            }
+            filterChain.doFilter(request, response);
+            if(response instanceof RepWrapper) {
+                ((RepWrapper) response).changeContent();
+            }
         } catch (BasicException e) {
             log.error(e.getMsg());
             forward(request,response, properties.getErrorUrl(),e);
