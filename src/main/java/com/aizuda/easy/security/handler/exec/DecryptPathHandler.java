@@ -27,15 +27,12 @@ public class DecryptPathHandler extends AbstractFunctionHandler implements ReqFu
         if(CollectionUtil.isEmpty(urlFilter) || !PathCheckUtil.isMatch(urlFilter,url)){
             return json;
         }
-        Req<Object,Object> req = mapper.readValue(json, Req.class);
-        String decryption = easySecurityServer.decryption(request, mapper.writeValueAsString(req.getData()), properties.getSecretKey());
-        req.setData(jsonToObject(decryption));
-        return mapper.writeValueAsString(req);
+        return easySecurityServer.decryption(request,json, properties.getSecretKey());
     }
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 6;
+        return Integer.MIN_VALUE + 5;
     }
 
 

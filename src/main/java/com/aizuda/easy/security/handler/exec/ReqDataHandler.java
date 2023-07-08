@@ -40,7 +40,7 @@ public class ReqDataHandler extends AbstractFunctionHandler implements ReqFuncti
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 5;
+        return Integer.MIN_VALUE + 6;
     }
 
 }
