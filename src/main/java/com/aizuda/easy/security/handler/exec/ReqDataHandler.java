@@ -9,7 +9,6 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.LocalUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +17,6 @@ import java.util.Locale;
 
 @Component
 public class ReqDataHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
-
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    @Override
-    public Integer getIndex() {
-        return Integer.MIN_VALUE + 6;
-    }
 
     @Override
     public String exec(HttpServletRequest request, String json) throws BasicException, IOException {
@@ -40,11 +32,15 @@ public class ReqDataHandler extends AbstractFunctionHandler implements ReqFuncti
         if (ObjectUtil.isEmpty(req)) {
             req = new Req<>();
         }
-        req.setUser(localEntity.getUser());
         String token = request.getHeader(properties.getTokenKey());
         req.setToken(token);
+        req.setUser(localEntity.getUser());
         return mapper.writeValueAsString(req);
     }
 
+    @Override
+    public Integer getIndex() {
+        return Integer.MIN_VALUE + 5;
+    }
 
 }

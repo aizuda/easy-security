@@ -41,6 +41,6 @@ public class AuthorizationHandler extends AbstractFunctionHandler implements Req
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 5;
+        return Integer.MIN_VALUE + 4;
     }
 }

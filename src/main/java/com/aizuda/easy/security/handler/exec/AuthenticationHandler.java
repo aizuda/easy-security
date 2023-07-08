@@ -13,12 +13,13 @@ import com.aizuda.easy.security.util.LocalUtil;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Component
 public class AuthenticationHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
 
     @Override
-    public String exec(HttpServletRequest request, String json) throws BasicException {
+    public String exec(HttpServletRequest request, String json) throws BasicException, IOException {
         // 不为特殊路径和项目路径才获取用户信息
         LocalEntity localEntity = LocalUtil.getLocalEntity();
         if(localEntity.getSpecial() || localEntity.getProject() || !properties.getAuthEnable()){
@@ -38,7 +39,7 @@ public class AuthenticationHandler extends AbstractFunctionHandler implements Re
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 4;
+        return Integer.MIN_VALUE + 3;
     }
 
 }
