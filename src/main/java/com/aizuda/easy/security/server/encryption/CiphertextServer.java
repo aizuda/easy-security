@@ -20,7 +20,7 @@ public interface CiphertextServer {
         if(StrUtil.isEmpty(json)){
             throw new BasicException(BasicCode.BASIC_CODE_99988);
         }
-        return json;
+        return json.trim();
     }
 
     default String decryption(HttpServletRequest request, String json,String key) throws BasicException {
