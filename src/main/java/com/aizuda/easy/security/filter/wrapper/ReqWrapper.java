@@ -4,13 +4,13 @@ import com.aizuda.easy.security.HandlerFactory;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.FunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -20,7 +20,7 @@ public class ReqWrapper extends HttpServletRequestWrapper {
     private static final Logger log = LoggerFactory.getLogger(ReqWrapper.class);
     private String body;
 
-    public ReqWrapper(HttpServletRequest request,HandlerFactory factory) throws IOException, BasicException {
+    public ReqWrapper(HttpServletRequest request, HandlerFactory factory) throws IOException, BasicException {
         super(request);
         body = getBodyContent(request);
         for (FunctionHandler functionHandler : factory.getFunctionHandlers()) {

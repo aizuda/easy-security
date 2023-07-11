@@ -5,11 +5,11 @@ import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.IPUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class BlacklistHandler extends AbstractFunctionHandler implements ReqFunctionHandler {

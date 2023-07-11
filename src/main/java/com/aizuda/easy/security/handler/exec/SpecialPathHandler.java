@@ -7,16 +7,16 @@ import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
 import com.aizuda.easy.security.util.LocalUtil;
 import com.aizuda.easy.security.util.PathCheckUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Component
 public class SpecialPathHandler extends AbstractFunctionHandler implements ReqFunctionHandler {
 
     @Override
-    public String exec(HttpServletRequest request,String json) throws BasicException {
+    public String exec(HttpServletRequest request, String json) throws BasicException {
         LocalEntity localEntity = LocalUtil.getLocalEntity();
         List<String> urlFilter = properties.getSpecialUrl();
         if(CollectionUtil.isEmpty(urlFilter)){

@@ -1,8 +1,8 @@
 package com.aizuda.easy.security.handler;
 
 import com.aizuda.easy.security.exp.impl.BasicException;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface RepFunctionHandler extends FunctionHandler{

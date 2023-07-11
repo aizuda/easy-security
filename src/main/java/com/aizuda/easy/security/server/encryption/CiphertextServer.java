@@ -4,9 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.aizuda.easy.security.code.BasicCode;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.util.AesEncryptUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 public interface CiphertextServer {
@@ -23,7 +23,7 @@ public interface CiphertextServer {
         return json.trim();
     }
 
-    default String decryption(HttpServletRequest request, String json,String key) throws BasicException {
+    default String decryption(HttpServletRequest request, String json, String key) throws BasicException {
         if(StrUtil.isEmpty(key)){
             throw new BasicException(BasicCode.BASIC_CODE_99990);
         }

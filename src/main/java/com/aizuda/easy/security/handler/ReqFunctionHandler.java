@@ -1,8 +1,8 @@
 package com.aizuda.easy.security.handler;
 
 import com.aizuda.easy.security.exp.impl.BasicException;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public interface ReqFunctionHandler extends FunctionHandler {

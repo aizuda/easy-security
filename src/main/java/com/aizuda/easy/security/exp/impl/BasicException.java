@@ -1,8 +1,7 @@
 package com.aizuda.easy.security.exp.impl;
 
 import com.aizuda.easy.security.exp.IErrorCode;
-
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 
 public class BasicException extends ServletException {
