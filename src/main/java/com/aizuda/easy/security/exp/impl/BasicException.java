@@ -1,10 +1,9 @@
 package com.aizuda.easy.security.exp.impl;
 
 import com.aizuda.easy.security.exp.IErrorCode;
-import jakarta.servlet.ServletException;
 
 
-public class BasicException extends ServletException {
+public class BasicException extends Exception {
 
     private Integer code;
     private String msg;
