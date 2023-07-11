@@ -2,7 +2,6 @@ package com.aizuda.easy.security.handler.exec;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.json.JSONUtil;
-import com.aizuda.easy.security.domain.Req;
 import com.aizuda.easy.security.exp.impl.BasicException;
 import com.aizuda.easy.security.handler.AbstractFunctionHandler;
 import com.aizuda.easy.security.handler.ReqFunctionHandler;
@@ -32,7 +31,7 @@ public class DecryptPathHandler extends AbstractFunctionHandler implements ReqFu
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 5;
+        return Integer.MIN_VALUE + 50;
     }
 
 

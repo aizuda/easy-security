@@ -15,8 +15,10 @@ public class LocalUtil {
         local.remove();
     }
 
-    public static void create(){
-        local.set(new LocalEntity());
+    public static LocalEntity create(){
+        LocalEntity localEntity = new LocalEntity();
+        local.set(localEntity);
+        return localEntity;
     }
 
     public static <T> T getUser(){

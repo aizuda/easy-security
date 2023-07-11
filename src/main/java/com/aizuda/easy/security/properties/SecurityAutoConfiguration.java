@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 @Configuration
@@ -37,8 +36,11 @@ public class SecurityAutoConfiguration extends DefaultHandlerFactory implements 
 
     private ApplicationContext context;
 
-    @Resource
-    SecurityProperties securityProperties;
+    final SecurityProperties securityProperties;
+
+    public SecurityAutoConfiguration(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
     @ConditionalOnMissingBean(EasySecurityServer.class)
     @Bean
