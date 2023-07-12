@@ -31,7 +31,7 @@ public class DecryptPathHandler extends AbstractFunctionHandler implements ReqFu
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 5;
+        return Integer.MIN_VALUE + 50;
     }
 
 

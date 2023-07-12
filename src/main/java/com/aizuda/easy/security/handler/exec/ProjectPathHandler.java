@@ -28,6 +28,6 @@ public class ProjectPathHandler extends AbstractFunctionHandler implements ReqFu
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 2;
+        return Integer.MIN_VALUE + 20;
     }
 }

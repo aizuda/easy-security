@@ -16,7 +16,7 @@ public class EncryptionPathHandler  extends AbstractFunctionHandler implements R
 
     @Override
     public Integer getIndex() {
-        return Integer.MAX_VALUE;
+        return Integer.MAX_VALUE - 10;
     }
 
     @Override

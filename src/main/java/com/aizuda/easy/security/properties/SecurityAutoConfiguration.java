@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Map;
 
@@ -36,12 +37,15 @@ public class SecurityAutoConfiguration extends DefaultHandlerFactory implements 
 
     private ApplicationContext context;
 
-    final
-    SecurityProperties securityProperties;
+    final SecurityProperties securityProperties;
 
-    public SecurityAutoConfiguration(SecurityProperties securityProperties) {
+    final HandlerExceptionResolver handlerExceptionResolver;
+
+    public SecurityAutoConfiguration(SecurityProperties securityProperties,HandlerExceptionResolver handlerExceptionResolver) {
         this.securityProperties = securityProperties;
+        this.handlerExceptionResolver = handlerExceptionResolver;
     }
+
 
     @ConditionalOnMissingBean(EasySecurityServer.class)
     @Bean
@@ -54,7 +58,7 @@ public class SecurityAutoConfiguration extends DefaultHandlerFactory implements 
         log.info("building {}",FilterOrderCode.FILTER_ORDER_CODE_0.getName());
         init(easySecurityServer);
         FilterRegistrationBean<FunctionFilter> registration = new FilterRegistrationBean<>();
-        FunctionFilter functionFilter = new FunctionFilter(securityProperties,this);
+        FunctionFilter functionFilter = new FunctionFilter(securityProperties,this,handlerExceptionResolver);
         registration.setFilter(functionFilter);
         registration.addUrlPatterns(urlPatterns);
         registration.setName("functionFilter");

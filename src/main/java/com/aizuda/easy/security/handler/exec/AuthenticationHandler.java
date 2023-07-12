@@ -39,7 +39,7 @@ public class AuthenticationHandler extends AbstractFunctionHandler implements Re
 
     @Override
     public Integer getIndex() {
-        return Integer.MIN_VALUE + 3;
+        return Integer.MIN_VALUE + 30;
     }
 
 }

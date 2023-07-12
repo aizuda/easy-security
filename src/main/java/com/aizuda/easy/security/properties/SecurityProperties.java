@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ConfigurationProperties(prefix = "easy.security")
+@ConfigurationProperties(value = "easy.security")
 public class SecurityProperties {
 
     private Boolean authEnable = false;
