@@ -35,10 +35,6 @@ public class SecurityProperties {
      */
     private List<String> blackList = new ArrayList<>();
     /**
-     * 发生异常跳转地址
-     */
-    private String errorUrl = "/failure/authenticationFilter";
-    /**
      * 长度16位的字母数字组合
      */
     private String secretKey;
@@ -89,14 +85,6 @@ public class SecurityProperties {
 
     public void setDecryptUrl(List<String> decryptUrl) {
         this.decryptUrl = decryptUrl;
-    }
-
-    public String getErrorUrl() {
-        return errorUrl;
-    }
-
-    public void setErrorUrl(String errorUrl) {
-        this.errorUrl = errorUrl;
     }
 
     public Boolean getRequestDataEnable() {
