@@ -1,5 +1,4 @@
 package com.aizuda.easy.security.properties;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;

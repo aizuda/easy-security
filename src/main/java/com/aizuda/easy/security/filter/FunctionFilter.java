@@ -7,7 +7,7 @@ import com.aizuda.easy.security.filter.wrapper.ReqWrapper;
 import com.aizuda.easy.security.properties.SecurityProperties;
 import com.aizuda.easy.security.util.LocalUtil;
 import jakarta.servlet.*;
-    import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
