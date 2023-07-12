@@ -42,8 +42,8 @@ public class FunctionFilter implements Filter {
             request.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             if(!LocalUtil.getLocalEntity().getSpecial()){
-                response = new RepWrapper(response,factory);
                 request = new ReqWrapper(request,factory);
+                response = new RepWrapper(response,factory);
             }
             filterChain.doFilter(request, response);
             if(response instanceof RepWrapper) {
