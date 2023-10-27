@@ -21,7 +21,6 @@ easy-security 结合了 Yapi 的使用，如果你使用 Yapi 需要在自己的
 
 ### 加入社区
 ![](doc/code.png) 
-![](doc/code1.png)
 
 
 
